@@ -25,22 +25,22 @@ if __name__ == '__main__':
         tags = ["v0.0.1"]
     )
 
-    # job = aip.PipelineJob(
-    #     project = "fluent-anagram-326107",
-    #     location = "asia-northeast1",
-    #     display_name = "mlops_sample",
-    #     template_path = pipeline_path,
-    #     pipeline_root = "gs://mlops_samples/pipelines",
-    #     enable_caching = False,
-    #     parameter_values={
-    #         'a': 4.5,
-    #         'b': 6.5
-    #     }
-    # )
+    job = aip.PipelineJob(
+        project = "fluent-anagram-326107",
+        location = "asia-northeast1",
+        display_name = "mlops_sample",
+        template_path = pipeline_path,
+        pipeline_root = "gs://mlops_samples/pipelines",
+        enable_caching = False,
+        parameter_values={
+            'a': 4.5,
+            'b': 6.5
+        }
+    )
     
-    # job.submit(
-    #     service_account = "vertexai-pipelines-sa@fluent-anagram-326107.iam.gserviceaccount.com"
-    # )
+    job.submit(
+        service_account = "vertexai-pipelines-sa@fluent-anagram-326107.iam.gserviceaccount.com"
+    )
 
 
 
