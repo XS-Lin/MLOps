@@ -1,0 +1,14 @@
+[project]
+name = "MLOps"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "XS-Lin", email = "34854151+XS-Lin@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "docker>=7.2.0",
+    "google-cloud-aiplatform>=2.1.0",
+    "kfp>=2.17.0",
+]

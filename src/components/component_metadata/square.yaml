@@ -1,0 +1,63 @@
+# PIPELINE DEFINITION
+# Name: square
+# Inputs:
+#    x: float
+# Outputs:
+#    Output: float
+components:
+  comp-square:
+    executorLabel: exec-square
+    inputDefinitions:
+      parameters:
+        x:
+          parameterType: NUMBER_DOUBLE
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: NUMBER_DOUBLE
+deploymentSpec:
+  executors:
+    exec-square:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - square
+        command:
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: asia-northeast1-docker.pkg.dev/fluent-anagram-326107/mlops-image-sample/components:v0.0.1
+pipelineInfo:
+  name: square
+root:
+  dag:
+    outputs:
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: square
+    tasks:
+      square:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-square
+        inputs:
+          parameters:
+            x:
+              componentInputParameter: x
+        taskInfo:
+          name: square
+  inputDefinitions:
+    parameters:
+      x:
+        parameterType: NUMBER_DOUBLE
+  outputDefinitions:
+    parameters:
+      Output:
+        parameterType: NUMBER_DOUBLE
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.0

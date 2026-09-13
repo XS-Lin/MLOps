@@ -1,0 +1,70 @@
+# PIPELINE DEFINITION
+# Name: add
+# Inputs:
+#    x: float
+#    y: float
+# Outputs:
+#    Output: float
+components:
+  comp-add:
+    executorLabel: exec-add
+    inputDefinitions:
+      parameters:
+        x:
+          parameterType: NUMBER_DOUBLE
+        y:
+          parameterType: NUMBER_DOUBLE
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: NUMBER_DOUBLE
+deploymentSpec:
+  executors:
+    exec-add:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - add
+        command:
+        - python3
+        - -m
+        - kfp.dsl.executor_main
+        image: asia-northeast1-docker.pkg.dev/fluent-anagram-326107/mlops-image-sample/components:v0.0.1
+pipelineInfo:
+  name: add
+root:
+  dag:
+    outputs:
+      parameters:
+        Output:
+          valueFromParameter:
+            outputParameterKey: Output
+            producerSubtask: add
+    tasks:
+      add:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-add
+        inputs:
+          parameters:
+            x:
+              componentInputParameter: x
+            y:
+              componentInputParameter: y
+        taskInfo:
+          name: add
+  inputDefinitions:
+    parameters:
+      x:
+        parameterType: NUMBER_DOUBLE
+      y:
+        parameterType: NUMBER_DOUBLE
+  outputDefinitions:
+    parameters:
+      Output:
+        parameterType: NUMBER_DOUBLE
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.0
